@@ -72,7 +72,7 @@ class Main extends PluginBase implements Listener
     /** @var Utils */
     public $utils;
 
-    private function init(): void
+    private function init() : void
     {
         $this->arenas = [];
         $this->loadArenas();
@@ -88,7 +88,7 @@ class Main extends PluginBase implements Listener
         }
     }
 
-    private function initResources(): void
+    private function initResources() : void
     {
         $this->CommandHandler = new CommandHandler($this);
         $this->EventHandler = new EventHandler($this);
@@ -115,32 +115,64 @@ class Main extends PluginBase implements Listener
                     $this->config["countdown"] = 30;
                 }
             }
-            if (!isset($this->config["countdown_bcast"])) $this->config["countdown_bcast"] = true;
-            if (!isset($this->config["countdown_bcast_interval"])) $this->config["countdown_bcast_interval"] = 5;
-            if (!isset($this->config["countdown_bcast_serverwide"])) $this->config["countdown_bcast_serverwide"] = false;
-            if (!isset($this->config["start_bcast_serverwide"])) $this->config["start_bcast_serverwide"] = false;
-            if (!isset($this->config["end_bcast_serverwide"])) $this->config["end_bcast_serverwide"] = false;
-            if (isset($this->config["language"])) unset($this->config["language"]);
-            if (!isset($this->config["provider"])) $this->config["provider"] = "sqlite3";
-            if (!isset($this->config["block_commands"])) $this->config["block_commands"] = true;
-            if (!isset($this->config["prevent_place"])) $this->config["prevent_place"] = true;
-            if (!isset($this->config["prevent_break"])) $this->config["prevent_break"] = true;
-            if (!isset($this->config["prevent_gamemode_change"])) $this->config["prevent_gamemode_change"] = true;
-            if (!isset($this->config["keep_inventory"])) $this->config["keep_inventory"] = true;
-            if (!isset($this->config["show_updates"])) $this->config["show_updates"] = true;
-            if (!isset($this->config["check_updates"])) $this->config["check_updates"] = true;
-            if (!isset($this->config["download_updates"])) $this->config["download_updates"] = false;
-            if (!isset($this->config["update_check_url"])) $this->config["update_check_url"] = "https://raw.githubusercontent.com/jackthehack21/koth/master/updates.json";
+            if (!isset($this->config["countdown_bcast"])) {
+                $this->config["countdown_bcast"] = true;
+            }
+            if (!isset($this->config["countdown_bcast_interval"])) {
+                $this->config["countdown_bcast_interval"] = 5;
+            }
+            if (!isset($this->config["countdown_bcast_serverwide"])) {
+                $this->config["countdown_bcast_serverwide"] = false;
+            }
+            if (!isset($this->config["start_bcast_serverwide"])) {
+                $this->config["start_bcast_serverwide"] = false;
+            }
+            if (!isset($this->config["end_bcast_serverwide"])) {
+                $this->config["end_bcast_serverwide"] = false;
+            }
+            if (isset($this->config["language"])) {
+                unset($this->config["language"]);
+            }
+            if (!isset($this->config["provider"])) {
+                $this->config["provider"] = "sqlite3";
+            }
+            if (!isset($this->config["block_commands"])) {
+                $this->config["block_commands"] = true;
+            }
+            if (!isset($this->config["prevent_place"])) {
+                $this->config["prevent_place"] = true;
+            }
+            if (!isset($this->config["prevent_break"])) {
+                $this->config["prevent_break"] = true;
+            }
+            if (!isset($this->config["prevent_gamemode_change"])) {
+                $this->config["prevent_gamemode_change"] = true;
+            }
+            if (!isset($this->config["keep_inventory"])) {
+                $this->config["keep_inventory"] = true;
+            }
+            if (!isset($this->config["show_updates"])) {
+                $this->config["show_updates"] = true;
+            }
+            if (!isset($this->config["check_updates"])) {
+                $this->config["check_updates"] = true;
+            }
+            if (!isset($this->config["download_updates"])) {
+                $this->config["download_updates"] = false;
+            }
+            if (!isset($this->config["update_check_url"])) {
+                $this->config["update_check_url"] = "https://raw.githubusercontent.com/jackthehack21/koth/master/updates.json";
+            }
             $this->config["version"] = $this::CONFIG_VER;
             $this->saveConfig();
         }
 
-        if($this->config["download_updates"] === true){
-            $this->getLogger()->warning("Important disclaimer, by using the download_updates option you accept full responsibility of any damage done by the feature. Disable the option if you are un-happy with this or do not need it (Note, it has been tested and works on a plain pocketmine-mp v3.7.0-v3.8.5 server)");
+        if ($this->config["download_updates"] === true) {
+            $this->getLogger()->warning("Important disclaimer, by using the download_updates option you accept full responsibility of any damage done by the feature.");
             //Just in case it somehow goes wrong.
         }
 
-        foreach(array("eng","spa","fra") as $language){
+        foreach (array("eng","spa","fra") as $language) {
             @unlink($this->getDataFolder()."help_".$language.".txt");
             $this->saveResource("help_" . $language . ".txt");
         }
@@ -150,7 +182,8 @@ class Main extends PluginBase implements Listener
     /**
      * @param string $url
      */
-    private function downloadUpdate(string $url): void{
+    private function downloadUpdate(string $url) : void
+    {
         @mkdir($this->getDataFolder()."tmp/");
         $path = $this->getDataFolder()."tmp/KOTH-Update.phar";
         $this->getServer()->getAsyncPool()->submitTask(new DownloadFile($this, $url, $path));
@@ -160,15 +193,16 @@ class Main extends PluginBase implements Listener
      * @param string $path
      * @param $status
      */
-    public function handleDownload(string $path, int $status): void{
+    public function handleDownload(string $path, int $status): void
+    {
         $this->debug("Update download complete, at '".$path."' with status '".$status."'");
-        if($status !== 200){
+        if ($status !== 200) {
             $this->getLogger()->warning("Received status code '".$status."' when downloading update, update cancelled.");
             $this->utils->rmalldir($this->getDataFolder()."/tmp");
             return;
         }
         @rename($path, $this->getServer()->getPluginPath()."/KOTH-Update.phar");
-        if($this->getFileName() === null){
+        if ($this->getFileName() === null) {
             $this->debug("Deleting previous KOTH version...");
             $this->utils->rmalldir($this->getFile()); //i shouldn't be helping with source but i guess i can...
             $this->getLogger()->warning("Update complete, restart your server to load the new updated version.");
@@ -182,7 +216,7 @@ class Main extends PluginBase implements Listener
     /**
      * @param array $data
      */
-    public function handleUpdateInfo(Array $data): void
+    public function handleUpdateInfo(Array $data) : void
     {
         $this->debug("Handling latest update data.");
         if ($data["Error"] !== '') {
@@ -221,7 +255,7 @@ class Main extends PluginBase implements Listener
         }
     }
 
-    private function loadArenas(): void
+    private function loadArenas() : void
     {
         switch (strtolower($this->config["provider"])) {
             case 'sqlite':
@@ -242,7 +276,17 @@ class Main extends PluginBase implements Listener
         $data = $this->db->getAllData();
 
         foreach ($data as $arenaC) {
-            $arena = new Arena($this, $arenaC["name"], $arenaC["min_players"], $arenaC["max_players"], $arenaC["play_time"], $arenaC["hill"], $arenaC["spawns"], $arenaC["rewards"], $arenaC["world"]);
+            $arena = new Arena(
+                $this,
+                $arenaC["name"],
+                $arenaC["min_players"],
+                $arenaC["max_players"],
+                $arenaC["play_time"],
+                $arenaC["hill"],
+                $arenaC["spawns"],
+                $arenaC["rewards"],
+                $arenaC["world"]
+            );
             $this->arenas[] = $arena;
         }
 
@@ -252,12 +296,18 @@ class Main extends PluginBase implements Listener
     public function onDisable()
     {
         //small checks here to stop throwing more errors if crashing on load/enable etc.
-        if(!is_null($this->db)) $this->updateAllArenas();
-        if(!is_null($this->config)) $this->saveConfig();
-        if(!is_null($this->db)) $this->db->close();
+        if(!is_null($this->db)) {
+            $this->updateAllArenas();
+        }
+        if(!is_null($this->config)) {
+            $this->saveConfig();
+        }
+        if(!is_null($this->db)) {
+            $this->db->close();
+        }
     }
 
-    public function onEnable(): void
+    public function onEnable() : void
     {
         @rmdir($this->getDataFolder()."tmp/");
         $this->initResources();
@@ -271,15 +321,15 @@ class Main extends PluginBase implements Listener
      * @param array $args
      * @return bool
      */
-    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool
     {
-        return $this->CommandHandler->handleCommand($sender, $cmd, $label, $args);
+        return $this->CommandHandler->handleCommand($sender, $command, $label, $args);
     }
 
     /**
      * @param Arena $arena
      */
-    public function updateArena(Arena $arena): void
+    public function updateArena(Arena $arena) : void
     {
         $this->db->updateArena($arena);
     }
@@ -287,7 +337,7 @@ class Main extends PluginBase implements Listener
     /**
      * @param array|null $data
      */
-    public function updateAllArenas(array $data = null): void
+    public function updateAllArenas(array $data = null) : void
     {
         if ($data !== null) {
             $this->db->setAllData($data);
@@ -312,13 +362,15 @@ class Main extends PluginBase implements Listener
     /**
      * @param array|null $data
      */
-    public function saveConfig(array $data = null): void
+    public function saveConfig(array $data = null) : void
     {
         if ($data !== null) {
             if(!is_null($this->configC)) $this->configC->setAll($data);
             return;
         }
-        if(is_null($this->configC) or is_null($this->config)) return;
+        if (is_null($this->configC) || is_null($this->config)) {
+            return;
+        }
         $this->configC->setAll($this->config);
         $this->configC->save();
     }
@@ -327,7 +379,7 @@ class Main extends PluginBase implements Listener
      * @param string $msg
      * @return bool
      */
-    public function debug(string $msg): bool
+    public function debug(string $msg) : bool
     {
         if ($this->config["debug"] === true) {
             $this->getServer()->getLogger()->info(str_replace("{MSG}", $msg, $this->utils->colourise($this->messages["general"]["debug_format"])));
@@ -340,7 +392,7 @@ class Main extends PluginBase implements Listener
      * @param string $name
      * @return bool
      */
-    public function inGame(string $name): bool
+    public function inGame(string $name) : bool
     {
         return $this->getArenaByPlayer($name) !== null;
     }
@@ -348,7 +400,7 @@ class Main extends PluginBase implements Listener
     /**
      * @param Arena $arena
      */
-    public function newArena(Arena $arena): void
+    public function newArena(Arena $arena) : void
     {
         $this->arenas[] = $arena;
         $this->db->createArena($arena);
@@ -358,7 +410,7 @@ class Main extends PluginBase implements Listener
     /**
      * @param Arena $arena
      */
-    public function removeArena(Arena $arena): void
+    public function removeArena(Arena $arena) : void
     {
         if (($key = array_search($arena, $this->arenas)) !== false) {
             unset($this->arenas[$key]);
@@ -369,7 +421,7 @@ class Main extends PluginBase implements Listener
     /**
      * @param string $name
      */
-    public function removeArenaByName(string $name): void
+    public function removeArenaByName(string $name) : void
     {
         $this->removeArena($this->getArenaByName($name));
     }
@@ -377,7 +429,7 @@ class Main extends PluginBase implements Listener
     /**
      * @return Arena[]
      */
-    public function getAllArenas(): array
+    public function getAllArenas() : array
     {
         return $this->arenas;
     }
@@ -416,9 +468,12 @@ class Main extends PluginBase implements Listener
      * returns null if running from folder or anything except phar.
      * @return string|null
      */
-    private function getFileName(){
+    private function getFileName()
+    {
         $path = $this->getFile();
-        if(substr($path, 0, 7) !== "phar://") return null;
+        if (substr($path, 0, 7) !== "phar://") {
+            return null;
+        }
         $tmp = explode("\\", $path);
         $tmp = end($tmp); //requires reference, so cant do all in one
         return str_replace("/","",$tmp);
@@ -427,8 +482,9 @@ class Main extends PluginBase implements Listener
     /**
      * @return Main
      */
-    public static function getInstance(): self
+    public static function getInstance() : self
     {
         return self::$instance;
     }
+
 }

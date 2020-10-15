@@ -30,6 +30,7 @@
 */
 
 declare(strict_types=1);
+
 namespace Jackthehack21\KOTH\Events;
 
 use Jackthehack21\KOTH\Arena;
@@ -45,28 +46,29 @@ use pocketmine\Player;
  * You have been warned.
  */
 
-class ArenaDeleteEvent extends KothEvent{
+class ArenaDeleteEvent extends KothEvent {
 
     private $destroyer;
 
     /** @var Arena */
     private $arena;
 
-    public function __construct(Main $plugin, $destroyer, Arena $arena){
+    public function __construct(Main $plugin, $destroyer, Arena $arena) {
         $this->destroyer = $destroyer;
         $this->arena = $arena;
         parent::__construct($plugin);
     }
 
     /** @return Player|ConsoleCommandSender|CommandSender|null */
-    public function getDestroyer(){
+    public function getDestroyer() {
         return $this->destroyer;
     }
 
     /**
      * @return Arena
      */
-    public function getArena() : Arena{
+    public function getArena(): Arena {
         return $this->arena;
     }
+
 }

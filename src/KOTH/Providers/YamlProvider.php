@@ -31,14 +31,16 @@
 /** @noinspection PhpUndefinedMethodInspection */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Providers;
 
-use Jackthehack21\KOTH\{Main,Arena};
+namespace KOTH\Providers;
+
+use KOTH\Main;
+use KOTH\Arena;
 use pocketmine\utils\Config;
 
 // TODO: Major, remove Config and use YAML raw or remove.
 
-class YamlProvider implements BaseProvider{
+class YamlProvider implements BaseProvider {
 
     /** @var Main $plugin */
     private $plugin;
@@ -56,7 +58,8 @@ class YamlProvider implements BaseProvider{
         $this->plugin = $plugin;
     }
 
-    public function getName() : string{
+    public function getName() : string
+    {
         return "Yaml";
     }
 
@@ -80,7 +83,7 @@ class YamlProvider implements BaseProvider{
         $this->dataConfig->save();
     }
 
-    public function createArena(Arena $arena) : void{
+    public function createArena(Arena $arena): void {
         $this->data["arena_list"][] = [
             "name" => strtolower($arena->getName()),
             "min_players" => $arena->minPlayers,
@@ -94,11 +97,13 @@ class YamlProvider implements BaseProvider{
         $this->save();
     }
 
-    public function updateArena(Arena $arena) : void{
+    public function updateArena(Arena $arena): void {
         $key = 0;
-        if(count($this->data["arena_list"])==0) return;
-        while(count($this->data["arena_list"])-1 != $key){
-            if($this->data["arena_list"][$key]["name"] == strtolower($arena->getName())){
+        if (count($this->data["arena_list"]) == 0) {
+            return;
+        }
+        while (count($this->data["arena_list"])-1 != $key) {
+            if ($this->data["arena_list"][$key]["name"] == strtolower($arena->getName())) {
                 $this->data["arena_list"][$key] = [
                     "name" => strtolower($arena->name),
                     "min_players" => $arena->minPlayers,
@@ -115,11 +120,13 @@ class YamlProvider implements BaseProvider{
         $this->save();
     }
 
-    public function deleteArena(string $arena) : void{
+    public function deleteArena(string $arena): void {
         $key = 0;
-        if(count($this->data) === 0) return;
-        while(count(array_keys($this->data))-1 !== $key){
-            if($this->data["arena_list"][$key]["name"] == strtolower($arena)){
+        if (count($this->data) === 0) {
+            return;
+        }
+        while (count(array_keys($this->data))-1 !== $key) {
+            if ($this->data["arena_list"][$key]["name"] == strtolower($arena)) {
                 unset($this->data["arena_list"][$key]);
             }
             $key++;
@@ -127,19 +134,20 @@ class YamlProvider implements BaseProvider{
         $this->save();
     }
 
-    public function getDataVersion(): int
+    public function getDataVersion() : int
     {
         return $this->data["version"];
     }
 
-    public function getAllData(): array
+    public function getAllData() : array
     {
-        return $this->data["arena_list"]; //so no collisions between both providers, they both return only arena's
+        return $this->data["arena_list"]; // so no collisions between both providers, they both return only arena's
     }
 
-    public function setAllData(array $data): void
+    public function setAllData(array $data) : void
     {
         $this->data["arena_list"] = $data;
         $this->save();
     }
+
 }

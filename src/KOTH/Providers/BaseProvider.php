@@ -30,9 +30,11 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Providers;
 
-use Jackthehack21\KOTH\{Main,Arena};
+namespace KOTH\Providers;
+
+use KOTH\Main;
+use KOTH\Arena;
 
 /*
 NOTES:
@@ -42,6 +44,7 @@ NOTES:
 
 interface BaseProvider
 {
+
     public function __construct(Main $plugin);
 
     public function getName() : string;
@@ -65,4 +68,5 @@ interface BaseProvider
     public function getAllData() : array;
 
     public function setAllData(array $data) : void;
+
 }

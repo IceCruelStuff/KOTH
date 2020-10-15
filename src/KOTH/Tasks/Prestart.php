@@ -30,14 +30,15 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Tasks;
+
+namespace KOTH\Tasks;
 
 use pocketmine\scheduler\Task;
 
-use Jackthehack21\KOTH\Main;
-use Jackthehack21\KOTH\Arena;
+use KOTH\Main;
+use KOTH\Arena;
 
-class Prestart extends Task{
+class Prestart extends Task {
 
     /** @var Main */
     private $plugin;
@@ -55,7 +56,7 @@ class Prestart extends Task{
      * @param Arena $arena
      * @param int $count
      */
-    public function __construct(Main $plugin, Arena $arena, int $count){
+    public function __construct(Main $plugin, Arena $arena, int $count) {
         $this->plugin = $plugin;
         $this->arena = $arena;
         $this->countDown = $count;
@@ -65,22 +66,26 @@ class Prestart extends Task{
     /**
      * @param int $tick
      */
-    public function onRun(int $tick){
-        if($this->countDown === 0){
+    public function onRun(int $tick) {
+        if ($this->countDown === 0) {
             $this->arena->startGame();
             return;
         }
-        if($this->plugin->config["countdown_bcast"] === true) {
-            $msg = str_replace(["{COUNT}","{ARENA}"],[$this->countDown, $this->arena->getName()], $this->plugin->utils->colourise($this->plugin->messages["broadcasts"]["countdown"]));
+        if ($this->plugin->config["countdown_bcast"] === true) {
+            $msg = str_replace(
+                ["{COUNT}","{ARENA}"],
+                [$this->countDown, $this->arena->getName()],
+                $this->plugin->utils->colourise($this->plugin->messages["broadcasts"]["countdown"])
+            );
             if ($this->countDown <= 5) {
-                if(!$this->serverBcast){
+                if (!$this->serverBcast) {
                     $this->arena->broadcastMessage($msg);
-                } else{
+                } else {
                     $this->plugin->getServer()->broadcastMessage($msg);
                 }
             } else {
                 if (($this->countDown % $this->plugin->config["countdown_bcast_interval"]) === 0) {
-                    if(!$this->serverBcast){
+                    if (!$this->serverBcast) {
                         $this->arena->broadcastMessage($msg);
                     } else {
                         $this->plugin->getServer()->broadcastMessage($msg);
@@ -90,4 +95,5 @@ class Prestart extends Task{
         }
         $this->countDown--;
     }
+
 }

@@ -30,9 +30,10 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Events;
 
-use Jackthehack21\KOTH\Main;
+namespace KOTH\Events;
+
+use KOTH\Main;
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\Player;
@@ -44,7 +45,7 @@ use pocketmine\Player;
  * You have been warned.
  */
 
-class ArenaCreateEvent extends KothEvent{
+class ArenaCreateEvent extends KothEvent {
 
     private $creator;
 
@@ -62,7 +63,7 @@ class ArenaCreateEvent extends KothEvent{
     private $spawns;
     private $rewards;
 
-    public function __construct(Main $plugin, $creator, string $name, int $min_players, int $max_players, int $gameTime, array $hill = [], array $spawns = [], array $rewards = [], string $world = "null"){
+    public function __construct(Main $plugin, $creator, string $name, int $min_players, int $max_players, int $gameTime, array $hill = [], array $spawns = [], array $rewards = [], string $world = "null") {
         $this->creator = $creator;
         $this->name = $name;
         $this->min_players = $min_players;
@@ -76,119 +77,120 @@ class ArenaCreateEvent extends KothEvent{
     }
 
     /** @return Player|ConsoleCommandSender|CommandSender|null */
-    public function getCreator(){
+    public function getCreator() {
         return $this->creator;
     }
 
     /**
      * @return string
      */
-    public function getName() : string{
+    public function getName(): string {
         return $this->name;
     }
 
     /**
      * @param string $name
      */
-    public function setName(string $name) : void{
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
     /**
      * @return int
      */
-    public function getMinPlayers() : int{
+    public function getMinPlayers(): int {
         return $this->min_players;
     }
 
     /**
      * @param int $amount
      */
-    public function setMinPlayers(int $amount) : void{
+    public function setMinPlayers(int $amount): void {
         $this->min_players = $amount;
     }
 
     /**
      * @return int
      */
-    public function getMaxPlayers() : int{
+    public function getMaxPlayers(): int {
         return $this->max_players;
     }
 
     /**
      * @param int $amount
      */
-    public function setMaxPlayers(int $amount) : void{
+    public function setMaxPlayers(int $amount): void {
         $this->max_players = $amount;
     }
 
     /**
      * @return int
      */
-    public function getGameTime() : int{
+    public function getGameTime(): int {
         return $this->game_time;
     }
 
     /**
      * @param int $amount
      */
-    public function setGameTime(int $amount) : void{
+    public function setGameTime(int $amount): void {
         $this->game_time = $amount;
     }
 
     /**
      * @return array
      */
-    public function getHillPositions() : array{
+    public function getHillPositions(): array {
         return $this->hill;
     }
 
     /**
      * @param array $hill
      */
-    public function setHillPositions(array $hill) : void{
+    public function setHillPositions(array $hill): void {
         $this->hill = $hill;
     }
 
     /**
      * @return array
      */
-    public function getSpawnPositions() : array{
+    public function getSpawnPositions(): array {
         return $this->spawns;
     }
 
     /**
      * @param array $spawns
      */
-    public function setSpawnPositions(array $spawns) : void{
+    public function setSpawnPositions(array $spawns): void {
         $this->spawns = $spawns;
     }
 
     /**
      * @return array
      */
-    public function getRewards() : array{
+    public function getRewards(): array {
         return $this->rewards;
     }
 
     /**
      * @param array $rewards
      */
-    public function setRewards(array $rewards) : void{
+    public function setRewards(array $rewards): void {
         $this->rewards = $rewards;
     }
 
     /**
      * @return string
      */
-    public function getWorld() : string{
+    public function getWorld(): string {
         return $this->world;
     }
 
     /**
      * @param string $worldName
      */
-    public function setWorld(string $worldName) : void{
+    public function setWorld(string $worldName): void {
         $this->world = $worldName;
     }
+
 }

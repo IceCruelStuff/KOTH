@@ -30,21 +30,24 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Tasks;
+
+namespace KOTH\Tasks;
 
 use pocketmine\scheduler\AsyncTask;
-use Jackthehack21\KOTH\Main;
+use KOTH\Main;
 use pocketmine\Server;
 
 class GetUpdateInfo extends AsyncTask
 {
+
     private $url;
 
     public function __construct(Main $plugin, string $url)
     {
         $this->url = $url;
-        $this->storeLocal($plugin); //4.0 compatible.
+        $this->storeLocal($plugin); // 4.0 compatible.
     }
+
     public function onRun()
     {
         $curl = curl_init();
@@ -56,18 +59,19 @@ class GetUpdateInfo extends AsyncTask
         $curlerror = curl_error($curl);
         $responseJson = json_decode($response, true);
         $error = '';
-        if($curlerror != ""){
+        if ($curlerror != "") {
             $error = "Unknown error occurred, code:".curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        }
-        elseif (curl_getinfo($curl, CURLINFO_HTTP_CODE) != 200) {
+        } elseif (curl_getinfo($curl, CURLINFO_HTTP_CODE) != 200) {
             $error = $responseJson['message'];
         }
         $result = ["Response" => $responseJson, "Error" => $error, "httpCode" => curl_getinfo($curl, CURLINFO_HTTP_CODE)];
         $this->setResult($result);
     }
+
     public function onCompletion(Server $server)
     {
         $plugin = $this->fetchLocal();
         $plugin->handleUpdateInfo($this->getResult());
     }
+
 }

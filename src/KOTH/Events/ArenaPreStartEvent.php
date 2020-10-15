@@ -30,10 +30,11 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Events;
 
-use Jackthehack21\KOTH\Arena;
-use Jackthehack21\KOTH\Main;
+namespace KOTH\Events;
+
+use KOTH\Arena;
+use KOTH\Main;
 
 /*
  * Note: The event is only used when the command /koth remove/delete is used,
@@ -42,7 +43,7 @@ use Jackthehack21\KOTH\Main;
  * You have been warned.
  */
 
-class ArenaPreStartEvent extends KothEvent{
+class ArenaPreStartEvent extends KothEvent {
 
     /** @var Arena */
     private $arena;
@@ -50,28 +51,29 @@ class ArenaPreStartEvent extends KothEvent{
     /** @var int */
     public $countdown;
 
-    public function __construct(Main $plugin, Arena $arena){
+    public function __construct(Main $plugin, Arena $arena) {
         $this->arena = $arena;
         $this->countdown = $arena->countDown;
         parent::__construct($plugin);
     }
 
     /** @return int */
-    public function getCountdown(): int{
+    public function getCountdown(): int {
         return $this->countdown;
     }
 
     /** @var int
      *  Notice, Does not change Arena->countDown.
      */
-    public function setCountdown(int $countdown): void{
+    public function setCountdown(int $countdown): void {
         $this->countdown = $countdown;
     }
 
     /**
      * @return Arena
      */
-    public function getArena(): Arena{
+    public function getArena(): Arena {
         return $this->arena;
     }
+
 }

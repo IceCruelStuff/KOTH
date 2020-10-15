@@ -30,27 +30,29 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Events;
 
-use Jackthehack21\KOTH\Main;
+namespace KOTH\Events;
+
+use KOTH\Main;
 use pocketmine\event\Cancellable;
 use pocketmine\event\plugin\PluginEvent;
 
-abstract class KothEvent extends PluginEvent implements Cancellable{
+abstract class KothEvent extends PluginEvent implements Cancellable {
 
     private $reason = "Event Cancelled";
 
     public function __construct(Main $plugin)
     {
-        $plugin->debug("Event '".$this->getEventName()."' is being constructed...");
+        $plugin->debug("Event '" . $this->getEventName() . "' is being constructed...");
         parent::__construct($plugin);
     }
 
-    public function getReason(): string{
+    public function getReason(): string {
         return $this->reason;
     }
 
-    public function setReason(string $reason): void{
+    public function setReason(string $reason): void {
         $this->reason = $reason;
     }
+
 }

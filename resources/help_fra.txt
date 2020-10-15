@@ -1,4 +1,4 @@
-French help file
+French Help File
 Fichier d'aide en français
 
 Variables de couleur = {BLACK} {DARK_BLUE} {DARK_GREEN} {DARK_AQUA} {DARK_RED} {DARK_PURPLE} {GOLD} {GRAY} {DARK_GRAY} {BLUE} {GREEN} {AQUA} {RED}

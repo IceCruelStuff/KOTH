@@ -30,10 +30,11 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Events;
 
-use Jackthehack21\KOTH\Arena;
-use Jackthehack21\KOTH\Main;
+namespace KOTH\Events;
+
+use KOTH\Arena;
+use KOTH\Main;
 
 /*
  * Note: The event is only used when the command /koth remove/delete is used,
@@ -42,7 +43,7 @@ use Jackthehack21\KOTH\Main;
  * You have been warned.
  */
 
-class ArenaEndEvent extends KothEvent{
+class ArenaEndEvent extends KothEvent {
 
     /** @var Arena */
     private $arena;
@@ -50,7 +51,7 @@ class ArenaEndEvent extends KothEvent{
     /** @var int */
     private $secondsLeft;
 
-    public function __construct(Main $plugin, Arena $arena){
+    public function __construct(Main $plugin, Arena $arena) {
         $this->arena = $arena;
         $this->secondsLeft = $arena->time;
         parent::__construct($plugin);
@@ -59,15 +60,14 @@ class ArenaEndEvent extends KothEvent{
     /**
      * @return Arena
      */
-    public function getArena(): Arena{
+    public function getArena(): Arena {
         return $this->arena;
     }
 
     /**
      * @return int
      */
-    public function getSecondsLeft(): int
-    {
+    public function getSecondsLeft(): int {
         return $this->secondsLeft;
     }
 
@@ -76,7 +76,8 @@ class ArenaEndEvent extends KothEvent{
      * Notice: Change this when cancelling otherwise it will continue to
      *         send out this event in a loop until not cancelled.
      */
-    public function setSecondsLeft(int $seconds): void{
+    public function setSecondsLeft(int $seconds): void {
         $this->secondsLeft = $seconds;
     }
+
 }

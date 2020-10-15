@@ -30,13 +30,14 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Events;
 
-use Jackthehack21\KOTH\Arena;
-use Jackthehack21\KOTH\Main;
+namespace KOTH\Events;
+
+use KOTH\Arena;
+use KOTH\Main;
 use pocketmine\Player;
 
-class ArenaAddPlayerEvent extends KothEvent{
+class ArenaAddPlayerEvent extends KothEvent {
 
     /** @var Arena */
     private $arena;
@@ -50,7 +51,7 @@ class ArenaAddPlayerEvent extends KothEvent{
      * @param Arena $arena
      * @param Player $player
      */
-    public function __construct(Main $plugin, Arena $arena, Player $player){
+    public function __construct(Main $plugin, Arena $arena, Player $player) {
         $this->arena = $arena;
         $this->player = $player;
         parent::__construct($plugin);
@@ -59,14 +60,15 @@ class ArenaAddPlayerEvent extends KothEvent{
     /**
      * @return Arena
      */
-    public function getArena(): Arena{
+    public function getArena() : Arena
+    {
         return $this->arena;
     }
 
     /**
      * @return Player
      */
-    public function getPlayer(): Player
+    public function getPlayer() : Player
     {
         return $this->player;
     }
@@ -74,9 +76,11 @@ class ArenaAddPlayerEvent extends KothEvent{
     /**
      * @param Player $player
      * Notice: Change this with caution, may result in unwanted behaviour.
-     *         You have been warned.
+     * You have been warned.
      */
-    public function setPlayer(Player $player): void{
+    public function setPlayer(Player $player) : void
+    {
         $this->player = $player;
     }
+
 }

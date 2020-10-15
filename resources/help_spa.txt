@@ -1,4 +1,4 @@
-Spanish help file
+Spanish Help File
 Archivo de ayuda en español
 
 Variables de color = {BLACK} {DARK_BLUE} {DARK_GREEN} {DARK_AQUA} {DARK_RED} {DARK_PURPLE} {GOLD} {GRAY} {DARK_GRAY} {BLUE} {GREEN} {AQUA} {RED}

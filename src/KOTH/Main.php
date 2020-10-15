@@ -83,7 +83,7 @@ class Main extends PluginBase implements Listener
             $this->getServer()->getAsyncPool()->submitTask(new GetUpdateInfo($this, $this->config["update_check_url"]));
         }
 
-        if (!$this->isPhar()){
+        if (!$this->isPhar()) {
             $this->getLogger()->warning("You are using source code which is heavily suggested NOT TO DO, please consider using production phar's pre built for you.");
         }
     }
@@ -111,7 +111,7 @@ class Main extends PluginBase implements Listener
                 $this->config["countdown"] = $this->config["start_countdown"];
                 unset($this->config["start_countdown"]);
             } else {
-                if(!isset($this->config["countdown"])){
+                if (!isset($this->config["countdown"])) {
                     $this->config["countdown"] = 30;
                 }
             }
@@ -229,7 +229,7 @@ class Main extends PluginBase implements Listener
                 $this->getLogger()->debug("Plugin up-to-date !");
                 return;
             }
-            if ($update > 0 and $this->config["show_updates"] === true) {
+            if (($update > 0) && $this->config["show_updates"] === true) {
                 $lines = explode("\n", $data["Response"]["patch_notes"]);
                 $this->getLogger()->warning("--- UPDATE AVAILABLE ---");
                 $this->getLogger()->warning(C::RED . " Version     :: " . $data["Response"]["version"]);
@@ -239,12 +239,16 @@ class Main extends PluginBase implements Listener
                     $this->getLogger()->warning("                " . C::GREEN . $lines[$i]);
                 }
                 $this->getLogger()->warning(C::LIGHT_PURPLE . " Update Link :: " . $data["Response"]["link"]);
-                if($this->config["download_updates"] !== true) $this->getLogger()->warning(C::GREEN." Enable the download_updates option in config.yml to automatically download and install updates.");
+                if ($this->config["download_updates"] !== true) {
+                    $this->getLogger()->warning(C::GREEN." Enable the download_updates option in config.yml to automatically download and install updates.");
+                }
             } else {
-                if ($update < 0) $this->debug("Running a build not yet released, this can cause un intended side effects (including possible data loss)");
+                if ($update < 0) {
+                    $this->debug("Running a build not yet released, this can cause un intended side effects (including possible data loss)");
+                }
                 return;
             }
-            if ($this->config["download_updates"] === true){
+            if ($this->config["download_updates"] === true) {
                 $this->getLogger()->warning(C::RED." Downloading & Installing Update, please do not abruptly stop server/plugin.");
                 $this->debug("Begin download of new update from '".$data["Response"]["download_link"]."'.");
                 $this->downloadUpdate($data["Response"]["download_link"]);
@@ -293,16 +297,16 @@ class Main extends PluginBase implements Listener
         $this->debug(str_replace("{AMOUNT}", count($this->arenas), $this->utils->colourise($this->messages["arenas"]["loaded"])));
     }
 
-    public function onDisable()
+    public function onDisable() : void
     {
         //small checks here to stop throwing more errors if crashing on load/enable etc.
-        if(!is_null($this->db)) {
+        if (!is_null($this->db)) {
             $this->updateAllArenas();
         }
-        if(!is_null($this->config)) {
+        if (!is_null($this->config)) {
             $this->saveConfig();
         }
-        if(!is_null($this->db)) {
+        if (!is_null($this->db)) {
             $this->db->close();
         }
     }
@@ -356,7 +360,9 @@ class Main extends PluginBase implements Listener
                 "world" => $arena->world
             ];
         }
-        if(!is_null($this->db)) $this->db->setAllData($save);
+        if (!is_null($this->db)) {
+            $this->db->setAllData($save);
+        }
     }
 
     /**

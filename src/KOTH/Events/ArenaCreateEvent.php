@@ -31,9 +31,9 @@
 
 declare(strict_types=1);
 
-namespace Jackthehack21\KOTH\Events;
+namespace KOTH\Events;
 
-use Jackthehack21\KOTH\Main;
+use KOTH\Main;
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\Player;

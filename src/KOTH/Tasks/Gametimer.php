@@ -30,13 +30,14 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Tasks;
+
+namespace KOTH\Tasks;
 
 use pocketmine\scheduler\Task;
+use KOTH\Arena;
 
-use Jackthehack21\KOTH\Arena;
+class Gametimer extends Task {
 
-class Gametimer extends Task{
     private $arena;
 
     public $secondsLeft;
@@ -46,7 +47,7 @@ class Gametimer extends Task{
      * Gametimer constructor.
      * @param Arena $arena
      */
-    public function __construct(Arena $arena){
+    public function __construct(Arena $arena) {
         $this->arena = $arena;
         $this->secondsLeft = $arena->time;
     }
@@ -54,10 +55,10 @@ class Gametimer extends Task{
     /**
      * @param int $tick
      */
-    public function onRun(int $tick){
+    public function onRun(int $tick) {
         $this->secondsLeft -= 0.5;
         $inBox = $this->arena->playersInBox();
-        if($this->arena->king === null){
+        if ($this->arena->king === null) {
             $this->arena->checkNewKing();
         } else {
             if (!in_array($this->arena->king, $inBox)) {
@@ -65,8 +66,9 @@ class Gametimer extends Task{
             }
         }
 
-        if($this->secondsLeft <= 0){
+        if ($this->secondsLeft <= 0) {
             $this->arena->endGame();
         }
     }
+
 }

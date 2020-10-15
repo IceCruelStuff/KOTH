@@ -30,9 +30,10 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Particles;
 
-use Jackthehack21\KOTH\Main;
+namespace KOTH\Particles;
+
+use KOTH\Main;
 
 use pocketmine\level\Level;
 use pocketmine\math\Vector3;
@@ -61,7 +62,8 @@ class FloatingText extends FloatingTextParticle {
     /**
      * @param string $text
      */
-    public function setText(string $text) : void{
+    public function setText(string $text) : void
+    {
         $this->text = $text;
         $this->update();
     }
@@ -69,7 +71,8 @@ class FloatingText extends FloatingTextParticle {
     /**
      * @param string $title
      */
-    public function setTitle(string $title) : void{
+    public function setTitle(string $title) : void
+    {
         $this->title = $title;
         $this->update();
     }
@@ -77,12 +80,14 @@ class FloatingText extends FloatingTextParticle {
     /**
      * @param bool $value
      */
-    public function setInvisible(bool $value = true) : void{
+    public function setInvisible(bool $value = true) : void
+    {
         $this->invisible = $value;
         $this->update();
     }
 
-    public function update() : void{
+    public function update() : void
+    {
         $this->level->addParticle($this);
     }
 

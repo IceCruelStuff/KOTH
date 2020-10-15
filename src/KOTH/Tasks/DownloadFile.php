@@ -30,15 +30,17 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Tasks;
+
+namespace KOTH\Tasks;
 
 use Error;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
-use Jackthehack21\KOTH\Main;
+use KOTH\Main;
 
 class DownloadFile extends AsyncTask
 {
+
     private $url;
     private $path;
 
@@ -46,12 +48,13 @@ class DownloadFile extends AsyncTask
     {
         $this->url = $url;
         $this->path = $path;
-        $this->storeLocal($plugin); //4.0 compatible.
+        $this->storeLocal($plugin); // 4.0 compatible.
     }
+
     public function onRun()
     {
         $file = fopen($this->path, 'w+');
-        if($file === false){
+        if ($file === false) {
             throw new Error('Could not open: ' . $this->path);
         }
 
@@ -60,7 +63,7 @@ class DownloadFile extends AsyncTask
         curl_setopt($ch, CURLOPT_TIMEOUT, 60); //give it 1 minute.
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_exec($ch);
-        if(curl_errno($ch)){
+        if (curl_errno($ch)) {
             throw new Error(curl_error($ch));
         }
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -68,9 +71,11 @@ class DownloadFile extends AsyncTask
         fclose($file);
         $this->setResult($statusCode);
     }
+
     public function onCompletion(Server $server)
     {
         $plugin = $this->fetchLocal();
         $plugin->handleDownload($this->path, $this->getResult());
     }
+
 }

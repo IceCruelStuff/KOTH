@@ -30,12 +30,14 @@
 */
 
 declare(strict_types=1);
-namespace Jackthehack21\KOTH\Providers;
 
-use Jackthehack21\KOTH\{Main,Arena};
+namespace KOTH\Providers;
+
+use KOTH\Main;
+use KOTH\Arena;
 use SQLite3;
 
-class SqliteProvider implements BaseProvider{
+class SqliteProvider implements BaseProvider {
 
     /** @var Main $plugin */
     private $plugin;
@@ -45,18 +47,26 @@ class SqliteProvider implements BaseProvider{
 
     private $version = 0;
 
-    private $createTableCode, $deleteTableCode, $deleteArenaCode, $createArenaCode, $updateArenaCode, $getAllDataCode, $setAllDataCode;
+    private $createTableCode;
+    private $deleteTableCode;
+    private $deleteArenaCode;
+    private $createArenaCode;
+    private $updateArenaCode;
+    private $getAllDataCode;
+    private $setAllDataCode;
 
     public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
     }
 
-    public function getName() : string{
+    public function getName() : string
+    {
         return "Sqlite3";
     }
 
-    public function prepareCode() : void{
+    public function prepareCode() : void
+    {
         $this->deleteTableCode = "DROP TABLE arena";
         $this->createTableCode = "CREATE TABLE IF NOT EXISTS arena (name TEXT PRIMARY KEY, min_players INTEGER, max_players INTEGER, play_time INTEGER, hill TEXT, spawns TEXT, rewards TEXT, world TEXT, version INTEGER);";
 
@@ -84,9 +94,11 @@ class SqliteProvider implements BaseProvider{
         $this->plugin->debug("Arena DB closed.");
     }
 
-    public function save(): void{}
+    public function save(): void {
 
-    public function createArena(Arena $arena) : void{
+    }
+
+    public function createArena(Arena $arena): void {
         $code = $this->db->prepare($this->createArenaCode);
         $code->bindValue(":name", strtolower($arena->getName()));
         $code->bindValue(":min_players", $arena->minPlayers);
@@ -99,7 +111,7 @@ class SqliteProvider implements BaseProvider{
         $code->execute();
     }
 
-    public function updateArena(Arena $arena) : void{
+    public function updateArena(Arena $arena): void {
         $code = $this->db->prepare($this->updateArenaCode);
         $code->bindValue(":min_players", $arena->minPlayers);
         $code->bindValue(":max_players", $arena->maxPlayers);
@@ -111,31 +123,33 @@ class SqliteProvider implements BaseProvider{
         $code->execute();
     }
 
-    public function deleteArena(string $arena) : void{
+    public function deleteArena(string $arena): void {
         $code = $this->db->prepare($this->deleteArenaCode);
         $code->bindValue(":name", strtolower($arena));
         $code->execute();
     }
 
-    public function getDataVersion(): int
+    public function getDataVersion() : int
     {
-        //returns version or -1 if not found.
+        // returns version or -1 if not found.
         $data = $this->getAllData();
-        if(count($data) === 0) return -1;
+        if (count($data) === 0) {
+            return -1;
+        }
         return $data[0]["version"];
     }
 
-    public function getAllData(): array
+    public function getAllData() : array
     {
         $result = $this->db->query($this->getAllDataCode);
         $tmpData = [];
         $countTmp = $result->fetchArray(1);
-        while($countTmp !== false){
+        while ($countTmp !== false) {
             $tmpData[] = $countTmp;
             $countTmp = $result->fetchArray(1);
         }
         $data = [];
-        foreach($tmpData as $tmp){
+        foreach ($tmpData as $tmp) {
             $tmp["hill"] =  json_decode($tmp["hill"], true);
             $tmp["spawns"] =  json_decode($tmp["spawns"], true);
             $tmp["rewards"] =  json_decode($tmp["rewards"], true);
@@ -144,9 +158,9 @@ class SqliteProvider implements BaseProvider{
         return $data;
     }
 
-    public function setAllData(array $data): void
+    public function setAllData(array $data) : void
     {
-        foreach($data as $arena){
+        foreach ($data as $arena) {
             $code = $this->db->prepare($this->setAllDataCode);
             $code->bindValue(":name", strtolower($arena["name"]));
             $code->bindValue(":min_players", $arena["min_players"]);
@@ -160,8 +174,9 @@ class SqliteProvider implements BaseProvider{
         }
     }
 
-    public function remAllData(): void
+    public function remAllData() : void
     {
         $this->db->exec($this->deleteTableCode);
     }
+
 }

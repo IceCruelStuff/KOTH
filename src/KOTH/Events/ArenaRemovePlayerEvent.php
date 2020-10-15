@@ -31,10 +31,10 @@
 
 declare(strict_types=1);
 
-namespace Jackthehack21\KOTH\Events;
+namespace KOTH\Events;
 
-use Jackthehack21\KOTH\Arena;
-use Jackthehack21\KOTH\Main;
+use KOTH\Arena;
+use KOTH\Main;
 use pocketmine\Player;
 
 /*

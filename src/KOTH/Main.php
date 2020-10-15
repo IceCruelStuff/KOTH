@@ -32,6 +32,7 @@
 /** @noinspection PhpUndefinedMethodInspection */
 
 declare(strict_types=1);
+
 namespace KOTH;
 
 use KOTH\Providers\BaseProvider;
@@ -191,7 +192,7 @@ class Main extends PluginBase implements Listener
 
     /**
      * @param string $path
-     * @param $status
+     * @param int    $status
      */
     public function handleDownload(string $path, int $status): void
     {

@@ -30,6 +30,7 @@
 */
 
 declare(strict_types=1);
+
 namespace Jackthehack21\KOTH\Events;
 
 use Jackthehack21\KOTH\Arena;
@@ -42,7 +43,7 @@ use pocketmine\Player;
  *         whether cancelled or not the player will be removed if leaving the app.
  */
 
-class ArenaRemovePlayerEvent extends KothEvent{
+class ArenaRemovePlayerEvent extends KothEvent {
 
     /** @var Arena */
     private $arena;
@@ -64,7 +65,7 @@ class ArenaRemovePlayerEvent extends KothEvent{
      * @param string $leaveReason
      * @param bool $silent
      */
-    public function __construct(Main $plugin, Arena $arena, Player $player, string $leaveReason, bool $silent){
+    public function __construct(Main $plugin, Arena $arena, Player $player, string $leaveReason, bool $silent) {
         $this->arena = $arena;
         $this->player = $player;
         $this->silent = $silent;
@@ -72,43 +73,42 @@ class ArenaRemovePlayerEvent extends KothEvent{
         parent::__construct($plugin);
     }
 
-    public function setSilent(bool $silent): void{
+    public function setSilent(bool $silent): void {
         $this->silent = $silent;
     }
 
     /**
      * @return bool
      */
-    public function isSilent(): bool{
+    public function isSilent(): bool {
         return $this->silent;
     }
 
     /**
      * @return string
      */
-    public function getLeaveReason(): string{
+    public function getLeaveReason(): string {
         return $this->leaveReason;
     }
 
     /**
      * @param string $leaveReason
      */
-    public function setLeaveReason(string $leaveReason): void{
+    public function setLeaveReason(string $leaveReason): void {
         $this->leaveReason = $leaveReason;
     }
 
     /**
      * @return Arena
      */
-    public function getArena(): Arena{
+    public function getArena(): Arena {
         return $this->arena;
     }
 
     /**
      * @return Player
      */
-    public function getPlayer(): Player
-    {
+    public function getPlayer(): Player {
         return $this->player;
     }
 
@@ -117,7 +117,8 @@ class ArenaRemovePlayerEvent extends KothEvent{
      * Notice: Change this with caution, may result in unwanted behaviour.
      *         You have been warned.
      */
-    public function setPlayer(Player $player): void{
+    public function setPlayer(Player $player): void {
         $this->player = $player;
     }
+
 }
